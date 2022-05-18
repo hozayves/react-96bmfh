@@ -15,10 +15,17 @@ const db = getFirestore(app);
 export const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-export const signInWithGoogle = () => {
-  signInWithPopup(auth, provider)
+export const signInWithGoogle = async() => {
+  await signInWithPopup(auth, provider)
     .then((result) => {
-      console.log(result);
+      console.log(result)
+      const name = result.user.displayName;
+      const email = result.user.email;
+      const profilePic = result.user.photoURL;
+
+      localStorage.setItem('name', name);
+      localStorage.setItem('email', email);
+      localStorage.setItem('photoURL', profilePic);
     })
     .catch((error) => {
       console.log(error);
